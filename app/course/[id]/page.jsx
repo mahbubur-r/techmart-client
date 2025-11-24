@@ -29,7 +29,9 @@ export default function CourseDetailsPage() {
   useEffect(() => {
     if (!authChecked) return;
 
-    fetch(`https://mentora-academy-server.vercel.app/courses/${courseId}`)
+    // fetch(`https://mentora-academy-server.vercel.app/courses/${courseId}`)
+    // fetch(`http://localhost:3000/courses/${courseId}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/courses/${courseId}`)
       .then((res) => res.json())
       .then((data) => {
         setCourse(data);
