@@ -43,7 +43,7 @@ export default function AllCoursesPage() {
   if (!authChecked || loading) return <p className="text-center mt-10">Loading...</p>;
 
   return (
-    <div className="max-w-6xl mx-auto mt-10 px-4">
+    <div className="max-w-6xl mx-auto mt-10 px-4 mb-10">
       <h2 className="text-3xl font-bold mb-6 text-center">All Courses</h2>
       <div className="grid md:grid-cols-3 gap-6">
         {courses.map((course) => (
