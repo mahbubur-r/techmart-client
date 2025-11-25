@@ -19,10 +19,10 @@ export default function Navbar() {
   return (
     <nav className="bg-white shadow-md py-4 px-6 flex justify-between items-center sticky top-0 z-50">
       {/* Logo */}
-      <div className="flex gap-1 items-center font-extrabold text-2xl text-blue-600 hover:text-blue-700 transition">
+      <Link href="/"><div className="flex gap-1 items-center font-extrabold text-2xl text-blue-600 hover:text-blue-700 transition">
         <TbHomeFilled size={28} />
-        <Link href="/">TechMart</Link>
-      </div>
+        TechMart
+      </div></Link>
 
       {/* Desktop Links */}
       <div className="hidden md:flex gap-4 items-center">
