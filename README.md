@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# TechMart — Full-Stack Learning Management Platform
 
-## Getting Started
+TechMart is a full-stack online learning platform where users can browse courses, enroll, manage their added courses, and access personalized dashboards.  
+It includes a **Next.js frontend** and a **Node.js + Express JS backend** deployed on **Vercel**.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Live Link
+https://tech2mart.vercel.app/
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Features
 
-## Learn More
+##  Authentication
+- User registration  
+- Secure login/logout  
+- Google login 
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## User Features
+- Browse all available courses  
+- View course details  
+- Enroll in a course  
+- View **My Enrolled Courses** in dashboard  
+- Manage profile  
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Dashboard Features
+- Add new courses  
+- Update existing courses  
+- Delete their own courses  
+- View **My Added Courses** list  
+- Dashboard shows course count and status  
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### REST API with Express
+- Structured API routes  
+- Modular and clean code  
+- Error handling  
+
+### MongoDB Integration
+- Connected using MongoDB Atlas  
+- Secure credentials via environment variables  
+- Courses, Enrollments, and Users stored as collections  
+
+### Fully Deployed on Vercel
+- API endpoints available publicly  
+- Auto-redeploy on commit  
+
+### Cross-Origin Resource Sharing (CORS)
+- Secure communication with frontend 
