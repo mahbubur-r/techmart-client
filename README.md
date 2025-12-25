@@ -1,13 +1,12 @@
-# TechMart — Full-Stack Learning Management Platform
+# TechMart — Full-Stack E-commerce Platform
 
-TechMart is a full-stack online learning platform where users can browse courses, enroll, manage their added courses, and access personalized dashboards.  
+TechMart is a full-stack e-commerce platform where users can browse products, place orders, manage their added products, and access personalized dashboards.  
 It includes a **Next.js frontend** and a **Node.js + Express JS backend** deployed on **Vercel**.
 
 ---
 
 ## Live Link
 https://tech2mart.vercel.app/
-
 
 ---
 
@@ -21,20 +20,20 @@ https://tech2mart.vercel.app/
 ---
 
 ## User Features
-- Browse all available courses  
-- View course details  
-- Enroll in a course  
-- View **My Enrolled Courses** in dashboard  
+- Browse all available products  
+- View product details  
+- Order a product  
+- View **My Orders** in dashboard  
 - Manage profile  
 
 ---
 
 ## Dashboard Features
-- Add new courses  
-- Update existing courses  
-- Delete their own courses  
-- View **My Added Courses** list  
-- Dashboard shows course count and status  
+- Add new products  
+- Update existing products  
+- Delete their own products  
+- View **My Added Products** list  
+- Dashboard shows product count and status  
 
 ---
 
@@ -46,7 +45,7 @@ https://tech2mart.vercel.app/
 ### MongoDB Integration
 - Connected using MongoDB Atlas  
 - Secure credentials via environment variables  
-- Courses, Enrollments, and Users stored as collections  
+- Products, Orders, and Users stored as collections  
 
 ### Fully Deployed on Vercel
 - API endpoints available publicly  

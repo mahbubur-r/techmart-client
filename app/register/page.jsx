@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
+import Swal from "sweetalert2";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -13,10 +14,24 @@ export default function RegisterPage() {
 
   const handleRegister = async () => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const result = await createUserWithEmailAndPassword(auth, email, password);
+      // save user to backend
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: result.user.email, role: "user" }),
+      });
+
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Registration Successful",
+        showConfirmButton: false,
+        timer: 1500
+      });
       router.push("/"); // redirect after registration
     } catch (err) {
-      alert(err.message);
+      Swal.fire("Error", err.message, "error");
     }
   };
 

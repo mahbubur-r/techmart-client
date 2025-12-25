@@ -27,11 +27,11 @@ export default function Navbar() {
       {/* Desktop Links */}
       <div className="hidden md:flex gap-4 items-center">
         <Link
-          href="/courses"
+          href="/products"
           className="relative inline-block px-4 py-2 font-medium text-blue-600 rounded-full group overflow-hidden border-2 border-blue-600 hover:text-white transition"
         >
           <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-500 to-indigo-500 transform -translate-x-full group-hover:translate-x-0 transition duration-300"></span>
-          <span className="relative z-10">Courses</span>
+          <span className="relative z-10">Products</span>
         </Link>
 
         {user && (
@@ -93,11 +93,11 @@ export default function Navbar() {
       {menuOpen && (
         <div className="absolute top-full left-0 w-full bg-white shadow-md flex flex-col gap-2 p-4 md:hidden z-40">
           <Link
-            href="/courses"
+            href="/products"
             onClick={() => setMenuOpen(false)}
             className="px-4 py-2 text-blue-600 font-medium rounded hover:bg-blue-50"
           >
-            Courses
+            Products
           </Link>
 
           {user && (

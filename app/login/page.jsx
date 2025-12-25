@@ -9,6 +9,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import Link from "next/link";
+import Swal from "sweetalert2";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -18,19 +19,45 @@ export default function LoginPage() {
   const handleEmailLogin = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Login Successful",
+        showConfirmButton: false,
+        timer: 1500
+      });
       router.push("/"); // redirect after login
     } catch (err) {
-      alert(err.message);
+      Swal.fire("Error", err.message, "error");
     }
   };
 
   const handleGoogleLogin = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      // save user to backend
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: result.user.email,
+          name: result.user.displayName,
+          image: result.user.photoURL,
+          role: "user",
+        }),
+      });
+
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Google Login Successful",
+        showConfirmButton: false,
+        timer: 1500
+      });
       router.push("/"); // redirect after login
     } catch (err) {
-      alert(err.message);
+      Swal.fire("Error", err.message, "error");
     }
   };
 

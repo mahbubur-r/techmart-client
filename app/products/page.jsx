@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth } from "../../firebase";
 
-export default function AllCoursesPage() {
-  const [courses, setCourses] = useState([]);
+export default function AllProductsPage() {
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [authChecked, setAuthChecked] = useState(false);
   const router = useRouter();
@@ -22,14 +22,14 @@ export default function AllCoursesPage() {
     return () => unsubscribe();
   }, [router]);
 
-  // Fetch courses after auth check
+  // Fetch products after auth check
   useEffect(() => {
     if (!authChecked) return;
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/courses`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`)
       .then((res) => res.json())
       .then((data) => {
-        setCourses(data);
+        setProducts(data);
         setLoading(false);
       })
       .catch((err) => {
@@ -42,26 +42,26 @@ export default function AllCoursesPage() {
 
   return (
     <div className="max-w-6xl mx-auto mt-10 px-4 mb-10">
-      <h2 className="text-3xl font-bold mb-6 text-center">All Courses</h2>
+      <h2 className="text-3xl font-bold mb-6 text-center">All Products</h2>
       <div className="grid md:grid-cols-3 gap-6">
-        {courses.map((course) => (
+        {products.map((product) => (
           <div
-            key={course._id}
+            key={product._id}
             className="border rounded shadow p-4 flex flex-col hover:shadow-lg transition"
           >
             <img
-              src={course.image}
-              alt={course.title}
+              src={product.image}
+              alt={product.title}
               className="w-full h-48 object-cover rounded mb-4"
             />
-            <h3 className="text-xl font-semibold mb-2">{course.title}</h3>
-            <p className="text-gray-600 mb-2">{course.category}</p>
-            <p className="text-gray-800 font-medium mb-2">${course.price}</p>
-            <p className="text-gray-500 text-sm mb-2">{course.duration}</p>
-            <p className="text-gray-600 text-sm mb-2">Instructor: {course.instructor}</p>
-            <p className="text-gray-600 text-sm mb-2">Rating: {course.ratingAvg}</p>
+            <h3 className="text-xl font-semibold mb-2">{product.title}</h3>
+            <p className="text-gray-600 mb-2">{product.category}</p>
+            <p className="text-gray-800 font-medium mb-2">${product.price}</p>
+            <p className="text-gray-500 text-sm mb-2">{product.brand}</p>
+            <p className="text-gray-600 text-sm mb-2">Seller: {product.seller}</p>
+            <p className="text-gray-600 text-sm mb-2">Rating: {product.ratingAvg}</p>
             <a
-              href={`/course/${course._id}`}
+              href={`/product/${product._id}`}
               className="mt-auto bg-blue-500 text-white py-2 px-4 rounded text-center hover:bg-blue-600 transition"
             >
               Details

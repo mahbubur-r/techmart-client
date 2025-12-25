@@ -1,43 +1,44 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
-export default function AddCourseForm({ user, editingCourse = null, onCancel, onSaved }) {
+export default function AddProductForm({ user, editingProduct = null, onCancel, onSaved }) {
   const [form, setForm] = useState({
     title: "",
     category: "",
-    duration: "",
+    brand: "",
     price: "",
     description: "",
     image: "",
   });
 
   const [submitting, setSubmitting] = useState(false);
-  const isEditing = Boolean(editingCourse && editingCourse._id);
+  const isEditing = Boolean(editingProduct && editingProduct._id);
 
-  // When editingCourse changes, populate the form
+  // When editingProduct changes, populate the form
   useEffect(() => {
-    if (editingCourse) {
+    if (editingProduct) {
       setForm({
-        title: editingCourse.title || "",
-        category: editingCourse.category || "",
-        duration: editingCourse.duration || "",
-        price: editingCourse.price || "",
-        description: editingCourse.description || "",
-        image: editingCourse.image || "",
+        title: editingProduct.title || "",
+        category: editingProduct.category || "",
+        brand: editingProduct.brand || "",
+        price: editingProduct.price || "",
+        description: editingProduct.description || "",
+        image: editingProduct.image || "",
       });
     } else {
       // reset if not editing
       setForm({
         title: "",
         category: "",
-        duration: "",
+        brand: "",
         price: "",
         description: "",
         image: "",
       });
     }
-  }, [editingCourse]);
+  }, [editingProduct]);
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -45,7 +46,7 @@ export default function AddCourseForm({ user, editingCourse = null, onCancel, on
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (!user?.email) return alert("You must be logged in to add a course.");
+    if (!user?.email) return Swal.fire("Error", "You must be logged in to add a product.", "error");
 
     setSubmitting(true);
     const payload = {
@@ -58,9 +59,9 @@ export default function AddCourseForm({ user, editingCourse = null, onCancel, on
     try {
       let res;
       if (isEditing) {
-        // Update existing course (PUT)
+        // Update existing product (PUT)
         res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/add_new_courses/${editingCourse._id}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/added_products/${editingProduct._id}`,
           {
             method: "PUT",
             headers: { "content-type": "application/json" },
@@ -68,8 +69,8 @@ export default function AddCourseForm({ user, editingCourse = null, onCancel, on
           }
         );
       } else {
-        // Add new course (POST)
-        res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/add_new_courses`, {
+        // Add new product (POST)
+        res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/added_products`, {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify(payload),
@@ -82,14 +83,20 @@ export default function AddCourseForm({ user, editingCourse = null, onCancel, on
       }
 
       const data = await res.json();
-      alert(isEditing ? "Course updated successfully!" : "Course added successfully!");
+      Swal.fire({
+        title: "Success!",
+        text: isEditing ? "Product updated successfully!" : "Product added successfully!",
+        icon: "success",
+        confirmButtonText: "Cool"
+      });
+
       onSaved?.(data);
       // reset form if it was add
       if (!isEditing) {
         setForm({
           title: "",
           category: "",
-          duration: "",
+          brand: "",
           price: "",
           description: "",
           image: "",
@@ -97,7 +104,7 @@ export default function AddCourseForm({ user, editingCourse = null, onCancel, on
       }
     } catch (err) {
       console.error(err);
-      alert("Error: " + (err.message || "Failed to save course"));
+      Swal.fire("Error", err.message || "Failed to save product", "error");
     } finally {
       setSubmitting(false);
     }
@@ -105,12 +112,12 @@ export default function AddCourseForm({ user, editingCourse = null, onCancel, on
 
   return (
     <form onSubmit={handleSubmit} className="p-6 border rounded shadow mb-10 bg-white">
-      <h2 className="text-xl font-bold mb-4">{isEditing ? "Update Course" : "Add New Course"}</h2>
+      <h2 className="text-xl font-bold mb-4">{isEditing ? "Update Product" : "Add New Product"}</h2>
 
       <div className="grid grid-cols-2 gap-4">
         <input
           name="title"
-          placeholder="Course Title"
+          placeholder="Product Title"
           value={form.title}
           onChange={handleChange}
           className="border p-2 rounded"
@@ -127,9 +134,9 @@ export default function AddCourseForm({ user, editingCourse = null, onCancel, on
         />
 
         <input
-          name="duration"
-          placeholder="Duration (e.g. 20 hours)"
-          value={form.duration}
+          name="brand"
+          placeholder="Brand"
+          value={form.brand}
           onChange={handleChange}
           className="border p-2 rounded"
           required
@@ -168,7 +175,7 @@ export default function AddCourseForm({ user, editingCourse = null, onCancel, on
           disabled={submitting}
           className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition disabled:opacity-60"
         >
-          {submitting ? (isEditing ? "Updating..." : "Saving...") : isEditing ? "Update Course" : "Add Course"}
+          {submitting ? (isEditing ? "Updating..." : "Saving...") : isEditing ? "Update Product" : "Add Product"}
         </button>
 
         <button

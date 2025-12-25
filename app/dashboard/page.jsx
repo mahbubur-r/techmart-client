@@ -5,14 +5,17 @@ import { auth } from "@/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
 
-import AddCourseForm from "./AddCourseForm";
-import MyAddedCourses from "./MyAddedCourses";
-import MyEnrolledCourses from "./MyEnrolledCourses";
+import Link from "next/link";
+import AddProductForm from "./AddProductForm";
+import MyAddedProducts from "./MyAddedProducts";
+import MyOrders from "./MyOrders";
+import Profile from "./Profile";
+
 
 export default function DashboardPage() {
   const [user, setUser] = useState(null);
   const [showForm, setShowForm] = useState(false);
-  const [editingCourse, setEditingCourse] = useState(null);
+  const [editingProduct, setEditingProduct] = useState(null);
   const [refreshFlag, setRefreshFlag] = useState(0);
   const router = useRouter();
 
@@ -27,14 +30,14 @@ export default function DashboardPage() {
     return () => unsub();
   }, [router]);
 
-  function handleSavedCourse(savedCourse) {
+  function handleSavedProduct(savedProduct) {
     setRefreshFlag((s) => s + 1);
-    setEditingCourse(null);
+    setEditingProduct(null);
     setShowForm(false);
   }
 
-  function handleEditRequest(course) {
-    setEditingCourse(course);
+  function handleEditRequest(product) {
+    setEditingProduct(product);
     setShowForm(true);
   }
 
@@ -46,41 +49,44 @@ export default function DashboardPage() {
     <div className="max-w-6xl mx-auto mt-10 p-6">
       <h1 className="text-4xl font-bold mb-6 text-center">Dashboard</h1>
 
+      {/* Profile Section */}
+      <Profile user={user} />
+
       <div className="flex items-center gap-4 mb-6">
         <button
           onClick={() => {
             setShowForm((s) => !s);
-            setEditingCourse(null);
+            setEditingProduct(null);
           }}
           className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-5 py-2 rounded-lg shadow hover:opacity-95 transition"
         >
-          {showForm ? "Close Form" : "Add New Course"}
+          {showForm ? "Close Form" : "Add New Product"}
         </button>
 
-        {editingCourse && (
+        {editingProduct && (
           <div className="text-sm text-gray-600">
-            Editing: <span className="font-medium">{editingCourse.title}</span>
+            Editing: <span className="font-medium">{editingProduct.title}</span>
           </div>
         )}
       </div>
 
       {showForm && (
-        <AddCourseForm
+        <AddProductForm
           user={user}
-          editingCourse={editingCourse}
+          editingProduct={editingProduct}
           onCancel={() => {
-            setEditingCourse(null);
+            setEditingProduct(null);
             setShowForm(false);
           }}
-          onSaved={handleSavedCourse}
+          onSaved={handleSavedProduct}
         />
       )}
 
-      {/* Enrolled Courses */}
-      <MyEnrolledCourses user={user} />
+      {/* Orders */}
+      <MyOrders user={user} />
 
-      {/* Added Courses */}
-      <MyAddedCourses
+      {/* Added Products */}
+      <MyAddedProducts
         user={user}
         onEdit={handleEditRequest}
         onDeleted={handleDeleted}
