@@ -3,7 +3,7 @@ import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/f
 export default function Footer() {
   return (
     <footer className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-10">
-      <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+      <div className="max-w-screen-2xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
         {/* Brand */}
         <div className="mb-4 md:mb-0 text-center md:text-left">
           <h2 className="text-2xl font-bold">TechMart</h2>

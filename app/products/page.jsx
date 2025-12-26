@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth } from "../../firebase";
+import Loading from "@/components/Loading";
 
 export default function AllProductsPage() {
   const [products, setProducts] = useState([]);
@@ -38,10 +39,10 @@ export default function AllProductsPage() {
       });
   }, [authChecked]);
 
-  if (!authChecked || loading) return <p className="text-center mt-10">Loading...</p>;
+  if (!authChecked || loading) return <Loading />;
 
   return (
-    <div className="max-w-6xl mx-auto mt-10 px-4 mb-10">
+    <div className="max-w-screen-2xl mx-auto mt-10 px-4 mb-10 w-full">
       <h2 className="text-3xl font-bold mb-6 text-center">All Products</h2>
       <div className="grid md:grid-cols-3 gap-6">
         {products.map((product) => (

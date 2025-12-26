@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { auth } from "../../../firebase";
 import Swal from "sweetalert2";
+import Loading from "@/components/Loading";
 
 export default function ProductDetailsPage() {
   const params = useParams();
@@ -99,11 +100,11 @@ export default function ProductDetailsPage() {
     }
   }
 
-  if (!authChecked || loading) return <p className="text-center mt-10">Loading...</p>;
+  if (!authChecked || loading) return <Loading />;
   if (!product) return <p className="text-center mt-10">Product not found</p>;
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 p-6 border rounded shadow bg-white">
+    <div className="max-w-4xl mx-auto mt-10 p-6 border rounded shadow bg-white mb-10">
       <h1 className="text-3xl font-bold mb-4">{product.title}</h1>
       <img
         src={product.image}
