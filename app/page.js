@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { FaArrowRight, FaShippingFast, FaHeadset, FaUndo, FaStar, FaEnvelope } from "react-icons/fa";
+import { FaArrowRight, FaShippingFast, FaHeadset, FaUndo, FaEnvelope } from "react-icons/fa";
 import Loading from "@/components/Loading";
+import ProductCard from "@/components/ProductCard";
 
 export default function HomePage() {
   const [products, setProducts] = useState([]);
@@ -133,35 +134,7 @@ export default function HomePage() {
         <h2 className="text-3xl font-bold mb-6 text-center">Top Products</h2>
         <div className="grid md:grid-cols-3 gap-6">
           {products.map((product) => (
-            <div
-              key={product._id}
-              className="border rounded shadow p-4 flex flex-col hover:shadow-lg transition"
-            >
-              <img
-                src={product.image}
-                alt={product.title}
-                className="w-full h-48 object-cover rounded mb-4"
-              />
-              <h3 className="text-xl font-semibold mb-2">{product.title}</h3>
-              <p className="text-gray-600 mb-2">{product.category}</p>
-              <p className="text-gray-800 font-medium mb-2">${product.price}</p>
-              <p className="text-gray-500 text-sm mb-2">{product.brand}</p>
-              <p className="text-gray-600 text-sm mb-2">Seller: {product.seller}</p>
-              <div className="flex items-center text-yellow-500 mb-2">
-                <span className="text-gray-600 text-sm mr-2">Rating:</span>
-                {Array.from({ length: 5 }, (_, i) => (
-                  <FaStar key={i} className={i < Math.round(product.ratingAvg || 0) ? "text-yellow-400" : "text-gray-300"} />
-                ))}
-                <span className="ml-1 text-gray-500 text-xs">({product.ratingAvg})</span>
-              </div>
-
-              <Link
-                href={`/product/${product._id}`}
-                className="mt-auto bg-blue-500 text-white py-2 px-4 rounded text-center hover:bg-blue-600 transition"
-              >
-                Details
-              </Link>
-            </div>
+            <ProductCard key={product._id} product={product} />
           ))}
         </div>
 
