@@ -38,8 +38,11 @@ export default function HomePage() {
           <h1 className="text-5xl md:text-6xl font-extrabold mb-6 drop-shadow-lg">
             Welcome to <span className="text-yellow-400">TechMart</span>
           </h1>
+          <h3 className="text-xl md:text-2xl text-yellow-400 font-bold mb-6 drop-shadow-lg">
+            Discover, Buy, Sell, and Manage top-quality tech gadgets with ease.
+          </h3>
           <p className="text-lg md:text-xl mb-8 drop-shadow-md">
-            Discover, buy, and manage top-quality tech gadgets with ease. TechMart is a modern marketplace designed for both sellers and buyers, where sellers can list, manage, and grow their gadget business, while users can explore, compare, and purchase the latest technology products all in one seamless platform. <br /> With a user-friendly interface, secure transactions, and powerful management tools, TechMart makes tech trading simple, fast, and reliable.
+            TechMart is a modern marketplace designed for both sellers and buyers, where sellers can list, manage, and grow their gadget business, while users can explore, compare, and purchase the latest technology products all in one seamless platform.
           </p>
 
           {/* Call-to-Action Buttons */}
@@ -66,14 +69,14 @@ export default function HomePage() {
           <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">Shop by Category</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { name: 'Electronics', color: 'from-blue-500 to-indigo-600' },
-              { name: 'Fashion', color: 'from-pink-500 to-rose-500' },
-              { name: 'Home & Living', color: 'from-green-500 to-emerald-600' },
-              { name: 'Sports', color: 'from-orange-500 to-red-500' },
-              { name: 'Books', color: 'from-purple-500 to-violet-600' },
-              { name: 'Toys', color: 'from-yellow-400 to-amber-500' },
-              { name: 'Beauty', color: 'from-teal-400 to-cyan-500' },
-              { name: 'Automotive', color: 'from-slate-600 to-gray-700' },
+              { name: 'Computers', color: 'from-blue-500 to-indigo-600' },
+              { name: 'Mobiles', color: 'from-green-500 to-emerald-600' },
+              { name: 'Photography', color: 'from-pink-800 to-rose-500' },
+              { name: 'Accessories', color: 'from-orange-500 to-red-500' },
+              { name: 'Cameras', color: 'from-purple-500 to-violet-600' },
+              { name: 'Audio', color: 'from-yellow-400 to-amber-500' },
+              { name: 'Video', color: 'from-teal-400 to-cyan-500' },
+              { name: 'Gaming', color: 'from-slate-600 to-gray-700' },
             ].map((cat, idx) => (
               <Link key={idx} href="/products">
                 <div

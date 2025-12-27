@@ -116,7 +116,7 @@ export default function MyAddedProducts({ user, onEdit, onDeleted, refreshFlag =
                                     </div>
                                 </td>
                                 <td className="p-3 text-gray-700 whitespace-nowrap">{product.brand}</td>
-                                <td className="p-3 font-medium text-blue-600 whitespace-nowrap">${product.price}</td>
+                                <td className="p-3 font-medium text-blue-600 whitespace-nowrap">€{product.price}</td>
                                 <td className="p-3 whitespace-nowrap">
                                     <div className="flex gap-2">
                                         <button

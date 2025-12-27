@@ -22,7 +22,7 @@ const ProductCard = ({ product }) => {
             });
         }
 
-        // Optional: Prevent ordering your own product if you are the seller
+        // Prevent ordering your own product if you are the seller
         if (user.email === product.sellerEmail) {
             return Swal.fire({
                 title: "Action Denied",
@@ -34,7 +34,7 @@ const ProductCard = ({ product }) => {
 
         const result = await Swal.fire({
             title: "Confirm Order",
-            text: `Are you sure you want to order "${product.title}" for $${product.price}?`,
+            text: `Are you sure you want to order "${product.title}" for €${product.price}?`,
             icon: "question",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -160,7 +160,7 @@ const ProductCard = ({ product }) => {
                 <div className="mt-auto flex items-center justify-between border-t border-gray-100 pt-4">
                     <div className="flex flex-col">
                         <span className="text-xs text-gray-500 uppercase font-bold">Price</span>
-                        <span className="text-xl font-bold text-gray-900">${product.price}</span>
+                        <span className="text-xl font-bold text-gray-900">€{product.price}</span>
                     </div>
                     <Link
                         href={`/product/${product._id}`}

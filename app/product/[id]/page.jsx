@@ -47,16 +47,35 @@ export default function ProductDetailsPage() {
   }, [authChecked, productId]);
 
   async function handleOrder() {
-    if (!user) return alert("You must be logged in to order.");
+    if (!user) return Swal.fire({
+      title: "Login Required",
+      text: "You must be logged in to order.",
+      icon: "warning",
+      confirmButtonColor: "#3085d6",
+    });
 
     // Optional: Prevent ordering your own product if you are the seller
     if (user.email === product.sellerEmail) {
-      return alert("You cannot order your own product.");
-    }
-
-    if (!confirm(`Are you sure you want to order "${product.title}" for $${product.price}?`)) {
+      Swal.fire({
+        title: "Action Denied",
+        text: "You cannot order your own product.",
+        icon: "error",
+        confirmButtonColor: "#d33",
+      });
       return;
     }
+
+    const result = await Swal.fire({
+      title: "Confirm Order",
+      text: `Are you sure you want to order "${product.title}" for €${product.price}?`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, order it!"
+    });
+
+    if (!result.isConfirmed) return;
 
     setPlacingOrder(true);
 
@@ -87,14 +106,24 @@ export default function ProductDetailsPage() {
 
       const result = await res.json();
       if (result.insertedId) {
-        alert("Order placed successfully!");
+        Swal.fire({
+          title: "Success!",
+          text: "Order placed successfully!",
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false
+        });
         router.push("/dashboard"); // Redirect to orders page
       } else {
         throw new Error("Order failed");
       }
     } catch (err) {
       console.error(err);
-      alert("Error placing order: " + err.message);
+      Swal.fire({
+        title: "Error",
+        text: "Error placing order: " + err.message,
+        icon: "error",
+      });
     } finally {
       setPlacingOrder(false);
     }
@@ -114,7 +143,7 @@ export default function ProductDetailsPage() {
 
       <div className="mb-8">
         <p className="text-gray-600 mb-2"><strong>Category:</strong> {product.category}</p>
-        <p className="text-gray-800 font-medium mb-2 text-xl"><strong>Price:</strong> ${product.price}</p>
+        <p className="text-gray-800 font-medium mb-2 text-xl"><strong>Price:</strong> €{product.price}</p>
         <p className="text-gray-500 mb-2"><strong>Brand:</strong> {product.brand}</p>
         <p className="text-gray-600 mb-2"><strong>Seller:</strong> {product.seller}</p>
         <p className="text-gray-600 mb-2"><strong>Seller Email:</strong> {product.sellerEmail}</p>

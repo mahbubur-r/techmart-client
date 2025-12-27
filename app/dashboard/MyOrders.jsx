@@ -121,7 +121,7 @@ export default function MyOrders({ user }) {
                       </div>
                     </td>
                     <td className="p-3 text-gray-700 whitespace-nowrap">{order.category}</td>
-                    <td className="p-3 font-medium text-blue-600 whitespace-nowrap text-lg">${order.price}</td>
+                    <td className="p-3 font-medium text-blue-600 whitespace-nowrap text-lg">€{order.price}</td>
                     <td className="p-3 whitespace-nowrap text-sm text-gray-500">
                       #{order._id ? order._id.slice(-6).toUpperCase() : 'N/A'}
                     </td>
@@ -158,7 +158,7 @@ export default function MyOrders({ user }) {
                     <p className="text-sm text-gray-600">{order.category}</p>
                     <p className="text-gray-700 mt-1">{order.brand}</p>
                     <div className="flex justify-between items-center mt-2">
-                      <p className="font-medium text-blue-600">${order.price}</p>
+                      <p className="font-medium text-blue-600">€{order.price}</p>
                       <button
                         onClick={() => handleDelete(order._id || order.id)}
                         className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600 transition flex items-center gap-1"
