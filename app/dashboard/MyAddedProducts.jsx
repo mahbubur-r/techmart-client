@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 export default function MyAddedProducts({ user, onEdit, onDeleted, refreshFlag = 0 }) {
     const [addedProducts, setAddedProducts] = useState([]);
@@ -117,18 +118,20 @@ export default function MyAddedProducts({ user, onEdit, onDeleted, refreshFlag =
                                 <td className="p-3 text-gray-700 whitespace-nowrap">{product.brand}</td>
                                 <td className="p-3 font-medium text-blue-600 whitespace-nowrap">${product.price}</td>
                                 <td className="p-3 whitespace-nowrap">
-                                    <div className="flex gap-2 flex-wrap">
+                                    <div className="flex gap-2">
                                         <button
                                             onClick={() => onEdit?.(product)}
-                                            className="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition"
+                                            className="text-yellow-500 hover:text-yellow-700 p-2 rounded-full hover:bg-yellow-50 transition"
+                                            title="Update Product"
                                         >
-                                            Update
+                                            <FaEdit size={18} />
                                         </button>
                                         <button
                                             onClick={() => handleDelete(product._id)}
-                                            className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition"
+                                            className="text-red-500 hover:text-red-700 p-2 rounded-full hover:bg-red-50 transition"
+                                            title="Delete Product"
                                         >
-                                            Delete
+                                            <FaTrash size={18} />
                                         </button>
                                     </div>
                                 </td>
@@ -160,18 +163,18 @@ export default function MyAddedProducts({ user, onEdit, onDeleted, refreshFlag =
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="flex gap-2 mt-2 flex-wrap">
+                        <div className="flex gap-2 mt-2">
                             <button
                                 onClick={() => onEdit?.(product)}
-                                className="flex-1 px-3 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition"
+                                className="flex-1 px-3 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition flex items-center justify-center gap-2"
                             >
-                                Update
+                                <FaEdit size={14} /> Update
                             </button>
                             <button
                                 onClick={() => handleDelete(product._id)}
-                                className="flex-1 px-3 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+                                className="flex-1 px-3 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition flex items-center justify-center gap-2"
                             >
-                                Delete
+                                <FaTrash size={14} /> Delete
                             </button>
                         </div>
                     </div>

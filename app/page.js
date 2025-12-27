@@ -39,7 +39,7 @@ export default function HomePage() {
             Welcome to <span className="text-yellow-400">TechMart</span>
           </h1>
           <p className="text-lg md:text-xl mb-8 drop-shadow-md">
-            Discover and manage top products with ease. Sell, add, and grow your business all in one place!
+            Discover, buy, and manage top-quality tech gadgets with ease. TechMart is a modern marketplace designed for both sellers and buyers, where sellers can list, manage, and grow their gadget business, while users can explore, compare, and purchase the latest technology products all in one seamless platform. <br /> With a user-friendly interface, secure transactions, and powerful management tools, TechMart makes tech trading simple, fast, and reliable.
           </p>
 
           {/* Call-to-Action Buttons */}

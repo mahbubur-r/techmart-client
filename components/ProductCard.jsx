@@ -1,7 +1,101 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { auth } from "../firebase";
+import Swal from "sweetalert2";
 import { FaStar, FaShoppingCart, FaEye } from "react-icons/fa";
 
 const ProductCard = ({ product }) => {
+    const [placingOrder, setPlacingOrder] = useState(false);
+    const router = useRouter();
+
+    async function handleOrder() {
+        const user = auth.currentUser;
+        if (!user) {
+            return Swal.fire({
+                title: "Login Required",
+                text: "You must be logged in to order.",
+                icon: "warning",
+                confirmButtonColor: "#3085d6",
+            });
+        }
+
+        // Optional: Prevent ordering your own product if you are the seller
+        if (user.email === product.sellerEmail) {
+            return Swal.fire({
+                title: "Action Denied",
+                text: "You cannot order your own product.",
+                icon: "error",
+                confirmButtonColor: "#d33",
+            });
+        }
+
+        const result = await Swal.fire({
+            title: "Confirm Order",
+            text: `Are you sure you want to order "${product.title}" for $${product.price}?`,
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, order it!"
+        });
+
+        if (!result.isConfirmed) return;
+
+        setPlacingOrder(true);
+
+        const orderData = {
+            productId: product._id,
+            title: product.title,
+            price: product.price,
+            image: product.image,
+            category: product.category,
+            brand: product.brand,
+            seller: product.seller,
+            sellerEmail: product.sellerEmail,
+            userEmail: user.email,
+            userName: user.displayName || user.email,
+            orderDate: new Date().toISOString(),
+        };
+
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
+                method: "POST",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify(orderData),
+            });
+
+            if (!res.ok) {
+                throw new Error("Failed to place order");
+            }
+
+            const apiResult = await res.json();
+            if (apiResult.insertedId) {
+                await Swal.fire({
+                    title: "Success!",
+                    text: "Order placed successfully!",
+                    icon: "success",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                router.push("/dashboard");
+            } else {
+                throw new Error("Order failed");
+            }
+        } catch (err) {
+            console.error(err);
+            Swal.fire({
+                title: "Error",
+                text: "Error placing order: " + err.message,
+                icon: "error",
+            });
+        } finally {
+            setPlacingOrder(false);
+        }
+    }
+
     return (
         <div className="group bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 flex flex-col h-full relative">
             {/* Discount Badge */}
@@ -26,12 +120,14 @@ const ProductCard = ({ product }) => {
                     >
                         <FaEye size={18} />
                     </Link>
-                    {/* <button
-                        className="p-3 bg-white text-gray-800 rounded-full shadow-lg hover:bg-emerald-500 hover:text-white transition-colors transform hover:-translate-y-1"
+                    <button
+                        onClick={handleOrder}
+                        disabled={placingOrder}
+                        className={`p-3 bg-white text-gray-800 rounded-full shadow-lg hover:bg-emerald-500 hover:text-white transition-colors transform hover:-translate-y-1 ${placingOrder ? "opacity-50 cursor-not-allowed" : ""}`}
                         title="Add to Cart"
                     >
                         <FaShoppingCart size={18} />
-                    </button> */}
+                    </button>
                 </div>
             </div>
 

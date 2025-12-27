@@ -52,7 +52,10 @@ export default function DashboardPage() {
       {/* Profile Section */}
       <Profile user={user} />
 
-      <div className="flex items-center gap-4 mb-6">
+      {/* Orders */}
+      <MyOrders user={user} />
+
+      <div className="flex items-center gap-4 my-6">
         <button
           onClick={() => {
             setShowForm((s) => !s);
@@ -81,9 +84,6 @@ export default function DashboardPage() {
           onSaved={handleSavedProduct}
         />
       )}
-
-      {/* Orders */}
-      <MyOrders user={user} />
 
       {/* Added Products */}
       <MyAddedProducts

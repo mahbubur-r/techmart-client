@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import { FaTrash } from "react-icons/fa";
 
 export default function MyOrders({ user }) {
   const [orders, setOrders] = useState([]);
@@ -40,6 +42,45 @@ export default function MyOrders({ user }) {
     load();
   }, [user]);
 
+  async function handleDelete(id) {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/${id}`, {
+          method: 'DELETE'
+        });
+        const data = await res.json();
+        if (data.success || data.deletedCount > 0) {
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your order has been deleted.",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false
+          });
+          const remaining = orders.filter(odr => (odr._id || odr.id) !== id);
+          setOrders(remaining);
+        }
+      } catch (error) {
+        console.error("Error deleting order:", error);
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to delete the order.",
+          icon: "error"
+        });
+      }
+    }
+  }
+
   return (
     <div className="mt-10">
       <h2 className="text-2xl font-bold mb-4">My Orders</h2>
@@ -61,6 +102,7 @@ export default function MyOrders({ user }) {
                   <th className="p-3">Category</th>
                   <th className="p-3">Price</th>
                   <th className="p-3">Order ID</th>
+                  <th className="p-3">Action</th>
                 </tr>
               </thead>
 
@@ -82,6 +124,15 @@ export default function MyOrders({ user }) {
                     <td className="p-3 font-medium text-blue-600 whitespace-nowrap text-lg">${order.price}</td>
                     <td className="p-3 whitespace-nowrap text-sm text-gray-500">
                       #{order._id ? order._id.slice(-6).toUpperCase() : 'N/A'}
+                    </td>
+                    <td className="p-3 whitespace-nowrap">
+                      <button
+                        onClick={() => handleDelete(order._id || order.id)}
+                        className="text-red-500 hover:text-red-700 p-2 rounded-full hover:bg-red-50 transition"
+                        title="Delete Order"
+                      >
+                        <FaTrash />
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -106,7 +157,15 @@ export default function MyOrders({ user }) {
                     <h3 className="font-semibold text-lg">{order.title}</h3>
                     <p className="text-sm text-gray-600">{order.category}</p>
                     <p className="text-gray-700 mt-1">{order.brand}</p>
-                    <p className="font-medium text-blue-600">${order.price}</p>
+                    <div className="flex justify-between items-center mt-2">
+                      <p className="font-medium text-blue-600">${order.price}</p>
+                      <button
+                        onClick={() => handleDelete(order._id || order.id)}
+                        className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600 transition flex items-center gap-1"
+                      >
+                        <FaTrash size={12} /> Delete
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
