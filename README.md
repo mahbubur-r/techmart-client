@@ -1,55 +1,73 @@
-# TechMart — Full-Stack E-commerce Platform
+# TechMart Client
 
-TechMart is a full-stack e-commerce platform where users can browse products, place orders, manage their added products, and access personalized dashboards.  
-It includes a **Next.js frontend** and a **Node.js + Express JS backend** deployed on **Vercel**.
+TechMart is a modern e-commerce application built with Next.js, allowing users to browse products, manage a personal dashboard, and simulate ordering processes. It features a responsive UI designed with Tailwind CSS and integrates Firebase for authentication.
 
----
+## 🚀 Features
 
-## Live Link
-https://tech2mart.vercel.app/
+-   **Public Product Browsing**: Users can view all products and product details without logging in.
+-   **Authentication**:
+    -   **Firebase Auth**: Secure email/password and Google login.
+    -   **Mock Login**: A built-in mock session for development and testing.
+-   **Dashboard**: A protected area for users to manage their profile, view orders, and manage added products.
+-   **Order System**: Integrated ordering flow with confirmation dialogs (SweetAlert2).
+-   **Responsive Design**: Fully responsive layout optimized for mobile and desktop.
 
----
+## 🛠️ Tech Stack
 
-# Features
+-   **Framework**: Next.js 16 (App Router)
+-   **Styling**: Tailwind CSS
+-   **Authentication**: Firebase & Custom Mock Auth
+-   **Notifications**: SweetAlert2
+-   **Icons**: React Icons
 
-##  Authentication
-- User registration  
-- Secure login/logout  
-- Google login 
+## ⚙️ Setup & Installation
 
----
+1.  **Clone the repository**:
+    ```bash
+    git clone <repository-url>
+    cd techmart-client
+    ```
 
-## User Features
-- Browse all available products  
-- View product details  
-- Order a product  
-- View **My Orders** in dashboard  
-- Manage profile  
+2.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
 
----
+3.  **Configure Environment Variables**:
+    Create a `.env.local` file in the root directory and add your API and Firebase keys:
+    ```env
+    NEXT_PUBLIC_API_URL=http://your-backend-api-url
+    NEXT_PUBLIC_FIREBASE_API_KEY=your_key
+    NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_domain
+    NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+    NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_bucket
+    NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+    NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
+    ```
 
-## Dashboard Features
-- Add new products  
-- Update existing products  
-- Delete their own products  
-- View **My Added Products** list  
-- Dashboard shows product count and status  
+4.  **Run the development server**:
+    ```bash
+    npm run dev
+    ```
 
----
+    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### REST API with Express
-- Structured API routes  
-- Modular and clean code  
-- Error handling  
+## 📍 Route Summary
 
-### MongoDB Integration
-- Connected using MongoDB Atlas  
-- Secure credentials via environment variables  
-- Products, Orders, and Users stored as collections  
+| Route | Access | Description |
+| :--- | :--- | :--- |
+| `/` | Public | Home page with hero section and featured content. |
+| `/products` | Public | Grid view of all available products. |
+| `/product/[id]` | Public | Detailed view of a specific product. Ordering requires login. |
+| `/login` | Public | User login page (Firebase & Mock). |
+| `/register` | Public | New user registration page. |
+| `/dashboard` | Protected | User dashboard for managing profile and data. |
 
-### Fully Deployed on Vercel
-- API endpoints available publicly  
-- Auto-redeploy on commit  
+## 🧪 Mock Login Credentials
 
-### Cross-Origin Resource Sharing (CORS)
-- Secure communication with frontend 
+For testing purposes without creating a Firebase account, you can use the hardcoded mock credentials:
+
+-   **Email**: `test@techmart.com`
+-   **Password**: `password`
+
+This will simulate a logged-in session using local storage.
