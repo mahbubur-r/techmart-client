@@ -20,13 +20,28 @@ export default function DashboardPage() {
   const router = useRouter();
 
   useEffect(() => {
+    // Check mock user first
+    const mockUser = localStorage.getItem("mockUser");
+    if (mockUser) {
+      setTimeout(() => {
+        setUser(JSON.parse(mockUser));
+      }, 0);
+      return;
+    }
+
     const unsub = onAuthStateChanged(auth, (u) => {
+      // Re-check mock user inside auth change just in case
+      if (localStorage.getItem("mockUser")) {
+        return;
+      }
+
       if (!u) {
         router.push("/login");
       } else {
         setUser(u);
       }
     });
+
     return () => unsub();
   }, [router]);
 

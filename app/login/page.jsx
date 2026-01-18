@@ -18,6 +18,30 @@ export default function LoginPage() {
 
   const handleEmailLogin = async () => {
     try {
+      if (email === "test@techmart.com" && password === "password") {
+        const mockUser = {
+          uid: "mock-user-123",
+          email: "test@techmart.com",
+          displayName: "Test User",
+          photoURL: "https://ui-avatars.com/api/?name=Test+User", // specific mock data
+          role: "user"
+        };
+        localStorage.setItem("mockUser", JSON.stringify(mockUser));
+
+        // Dispatch a custom event to update Navbar immediately
+        window.dispatchEvent(new Event("storage"));
+
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Login Successful (Mock)",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        router.push("/");
+        return;
+      }
+
       await signInWithEmailAndPassword(auth, email, password);
       Swal.fire({
         position: "top-end",

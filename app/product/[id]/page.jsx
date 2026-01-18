@@ -17,23 +17,25 @@ export default function ProductDetailsPage() {
   const [user, setUser] = useState(null);
   const [placingOrder, setPlacingOrder] = useState(false);
 
-  // Protect page & Get User
+  // Get User (Firebase or Mock)
   useEffect(() => {
+    // Check mock user first
+    const mockUser = localStorage.getItem("mockUser");
+    if (mockUser) {
+      setUser(JSON.parse(mockUser));
+    }
+
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-      if (!currentUser) {
-        router.push("/login"); // redirect if not logged in
-      } else {
+      // Prioritize mock user if exists, otherwise firebase user
+      if (!localStorage.getItem("mockUser")) {
         setUser(currentUser);
-        setAuthChecked(true);
       }
     });
     return () => unsubscribe();
-  }, [router]);
+  }, []);
 
-  // Fetch product details after auth check
+  // Fetch product details (public access)
   useEffect(() => {
-    if (!authChecked) return;
-
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${productId}`)
       .then((res) => res.json())
       .then((data) => {
@@ -44,7 +46,7 @@ export default function ProductDetailsPage() {
         console.error(err);
         setLoading(false);
       });
-  }, [authChecked, productId]);
+  }, [productId]);
 
   async function handleOrder() {
     if (!user) return Swal.fire({
@@ -129,7 +131,7 @@ export default function ProductDetailsPage() {
     }
   }
 
-  if (!authChecked || loading) return <Loading />;
+  if (loading) return <Loading />;
   if (!product) return <p className="text-center mt-10">Product not found</p>;
 
   return (

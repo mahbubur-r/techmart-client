@@ -9,11 +9,48 @@ export default function Navbar() {
   const [user, setUser] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const handleLogout = () => {
+    if (localStorage.getItem("mockUser")) {
+      localStorage.removeItem("mockUser");
+      setUser(null);
+      window.dispatchEvent(new Event("storage"));
+    } else {
+      signOut(auth);
+    }
+  };
+
   useEffect(() => {
+    // Check for mock user first
+    const mockUser = localStorage.getItem("mockUser");
+    if (mockUser) {
+      setTimeout(() => {
+        setUser(JSON.parse(mockUser));
+      }, 0);
+    }
+
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+      if (!localStorage.getItem("mockUser")) {
+        setUser(currentUser);
+      }
     });
-    return () => unsubscribe();
+
+    // Listen for mock login event
+    const handleStorageChange = () => {
+      const storedUser = localStorage.getItem("mockUser");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      } else {
+        // If mock user removed, fallback to firebase auth state (or null)
+        setUser(auth.currentUser);
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      unsubscribe();
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
 
   return (
@@ -47,7 +84,7 @@ export default function Navbar() {
 
           {user ? (
             <button
-              onClick={() => signOut(auth)}
+              onClick={handleLogout}
               className="bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg shadow-md hover:bg-blue-700 transition"
             >
               Logout
@@ -67,7 +104,7 @@ export default function Navbar() {
           {/* Mobile Login/Logout Button */}
           {user ? (
             <button
-              onClick={() => signOut(auth)}
+              onClick={handleLogout}
               className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition"
             >
               Logout
